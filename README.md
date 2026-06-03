@@ -51,7 +51,7 @@ composer create-project laravel/laravel laravel-sisfo11
 Masuk ke folder project:
 
 ```bash
-cd laravel-sisfo11
+cd auth-demo
 ```
 
 ---
@@ -255,7 +255,7 @@ git clone [https://github.com/PutriBalqisAfradinata/breeze_2411531009]
 Masuk ke folder project:
 
 ```bash
-cd laravel-sisfo11
+cd auth-demo
 ```
 
 Install dependency:
