@@ -249,13 +249,13 @@ admin
 Clone repository:
 
 ```bash
-git clone [https://github.com/PutriBalqisAfradinata/breeze_2411531009]
+git clone https://github.com/PutriBalqisAfradinata/breeze_2411531009
 ```
 
 Masuk ke folder project:
 
 ```bash
-cd auth-demo
+cd breeze_2411531009
 ```
 
 Install dependency:
