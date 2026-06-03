@@ -1,59 +1,327 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Praktikum Laravel 11 Breeze Authentication & Middleware Admin
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Identitas
 
-## About Laravel
+* Nama: Putri Balqis Afradinata
+* NIM: 2411531009
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Deskripsi Project
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Project ini merupakan implementasi Laravel Breeze Authentication pada Laravel 11 dengan penambahan:
 
-## Learning Laravel
+* Login dan Register
+* Dashboard User
+* Middleware Admin
+* Role User dan Admin
+* Penambahan field Nomor HP
+* Halaman Admin
+* Menampilkan daftar seluruh user pada halaman Admin
+* Seeder Admin
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Fitur Project
 
-## Laravel Sponsors
+## User
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* Register akun
+* Login
+* Logout
+* Edit Profile
+* Mengubah Password
 
-### Premium Partners
+## Admin
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* Login sebagai Admin
+* Mengakses halaman Admin
+* Melihat seluruh data user yang terdaftar
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Langkah-Langkah Pengerjaan Project
 
-## Code of Conduct
+## 1. Membuat Project Laravel
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer create-project laravel/laravel laravel-sisfo11
+```
 
-## Security Vulnerabilities
+Masuk ke folder project:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cd laravel-sisfo11
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 2. Menginstall Laravel Breeze
+
+```bash
+composer require laravel/breeze --dev
+```
+
+Install Breeze:
+
+```bash
+php artisan breeze:install
+```
+
+Install dependency frontend:
+
+```bash
+npm install
+npm run build
+```
+
+---
+
+## 3. Konfigurasi Database
+
+Buat database MySQL secara manual melalui phpMyAdmin.
+
+Contoh:
+
+```text
+db_breeze
+```
+
+Kemudian atur file `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_breeze
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+## 4. Menjalankan Migrasi
+
+```bash
+php artisan migrate
+```
+
+---
+
+## 5. Menambahkan Kolom Nomor HP
+
+Membuat migration baru untuk menambahkan field:
+
+```text
+no_hp
+```
+
+ke tabel users.
+
+Menjalankan migration:
+
+```bash
+php artisan migrate
+```
+
+---
+
+## 6. Menambahkan Role User dan Admin
+
+Menambahkan field:
+
+```text
+role
+```
+
+pada tabel users.
+
+Nilai role:
+
+* admin
+* user
+
+---
+
+## 7. Membuat Middleware Admin
+
+Membuat middleware:
+
+```bash
+php artisan make:middleware AdminMiddleware
+```
+
+Middleware digunakan untuk membatasi akses halaman admin hanya untuk user dengan role admin.
+
+---
+
+## 8. Registrasi Middleware pada Laravel 11
+
+Middleware didaftarkan pada file:
+
+```php
+bootstrap/app.php
+```
+
+---
+
+## 9. Membuat AdminController
+
+Membuat controller:
+
+```bash
+php artisan make:controller AdminController
+```
+
+Controller digunakan untuk mengambil seluruh data user dari database dan menampilkannya ke halaman admin.
+
+---
+
+## 10. Membuat Halaman Admin
+
+Membuat file:
+
+```text
+resources/views/admin.blade.php
+```
+
+Halaman admin menampilkan:
+
+* ID User
+* Nama
+* Email
+* Nomor HP
+* Role
+
+---
+
+## 11. Menambahkan Route Admin
+
+Menambahkan route:
+
+```php
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])
+        ->name('admin');
+});
+```
+
+---
+
+## 12. Membuat Seeder Admin
+
+Membuat seeder:
+
+```bash
+php artisan make:seeder UserSeeder
+```
+
+Menjalankan seeder:
+
+```bash
+php artisan db:seed --class=UserSeeder
+```
+
+Data admin yang dibuat:
+
+Email:
+
+```text
+admin@gmail.com
+```
+
+Password:
+
+```text
+password
+```
+
+Role:
+
+```text
+admin
+```
+
+---
+
+# Cara Menjalankan Project
+
+Clone repository:
+
+```bash
+git clone [https://github.com/PutriBalqisAfradinata/breeze_2411531009]
+```
+
+Masuk ke folder project:
+
+```bash
+cd laravel-sisfo11
+```
+
+Install dependency:
+
+```bash
+composer install
+npm install
+```
+
+Copy file environment:
+
+```bash
+cp .env.example .env
+```
+
+Generate key:
+
+```bash
+php artisan key:generate
+```
+
+Atur database pada file `.env`.
+
+Jalankan migration:
+
+```bash
+php artisan migrate
+```
+
+Jalankan seeder admin:
+
+```bash
+php artisan db:seed --class=UserSeeder
+```
+
+Jalankan aplikasi:
+
+```bash
+php artisan serve
+```
+
+---
+
+# Akun Admin
+
+Email: admin@gmail.com
+
+Password: password
+
+
+
+---
+
+# Deployment
+
+Project telah dicoba untuk dideploy menggunakan Railway.
+
+Link Deployment:
+
+https://breeze2411531009-production.up.railway.app
+
+Status:
+
+* Deployment berhasil dilakukan.
+* Login dan koneksi database berhasil berjalan.
+* Namun masih terdapat masalah pada pemuatan asset CSS sehingga tampilan antarmuka belum tampil secara optimal.
+
+Meskipun demikian, fungsi utama aplikasi seperti autentikasi, middleware admin, dan koneksi database telah berjalan dengan baik.
+
